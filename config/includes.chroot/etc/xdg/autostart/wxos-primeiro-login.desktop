@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=WX OS — configuração inicial
+Exec=/usr/local/bin/wxos-primeiro-login
+OnlyShowIn=KDE;
+NoDisplay=true
+X-KDE-autostart-phase=2

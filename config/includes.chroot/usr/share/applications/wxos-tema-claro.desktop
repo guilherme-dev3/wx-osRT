@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Tema claro
+Comment=Deixa o WX OS no modo claro
+Exec=/usr/local/bin/wxos-tema claro
+Icon=/usr/share/pixmaps/wx-os.png
+Categories=Settings;DesktopSettings;
+Keywords=tema;modo;claro;dark;light;

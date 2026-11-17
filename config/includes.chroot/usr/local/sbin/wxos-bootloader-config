@@ -1,0 +1,30 @@
+#!/bin/bash
+# WX OS — prepara o GRUB no sistema instalado (chamado pelo Calamares).
+# Usa os pacotes guardados na própria ISO, então funciona sem internet.
+CHROOT=$(mount | grep proc | grep calamares | awk '{print $3}' | sed -e "s#/proc##g")
+[ -n "$CHROOT" ] || { echo "bootloader-config: destino não encontrado"; exit 1; }
+
+if [ -d /sys/firmware/efi/efivars ]; then
+  MODO=efi;  PACOTES="grub-efi-amd64 grub-efi-amd64-signed shim-signed"
+else
+  MODO=bios; PACOTES="grub-pc"
+fi
+echo "Running bootloader-config ($MODO)..."
+
+export DEBIAN_FRONTEND=noninteractive
+rm -rf "$CHROOT/tmp/wxos-grub"
+cp -r "/opt/wxos/grub/$MODO" "$CHROOT/tmp/wxos-grub"
+if ls "$CHROOT"/tmp/wxos-grub/*.deb >/dev/null 2>&1 && \
+   chroot "$CHROOT" sh -c 'apt-get -y --no-install-recommends install /tmp/wxos-grub/*.deb'; then
+  echo " * GRUB instalado a partir da ISO"
+else
+  echo " * Pacotes locais falharam, tentando pela internet..."
+  chroot "$CHROOT" apt-get -y install $PACOTES
+fi
+rm -rf "$CHROOT/tmp/wxos-grub" "$CHROOT/opt/wxos/grub"
+
+# Detectar Windows e outros sistemas no menu de boot
+if [ -f "$CHROOT/etc/default/grub" ]; then
+  sed -i "s/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/" "$CHROOT/etc/default/grub"
+fi
+exit 0

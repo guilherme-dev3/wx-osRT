@@ -1,0 +1,34 @@
+#!/bin/bash
+# WX OS — ajustes feitos uma única vez no primeiro login de cada usuário.
+MARCA="$HOME/.config/wxos-primeiro-login"
+[ -f "$MARCA" ] && exit 0
+sleep 6   # espera o Plasma terminar de carregar
+
+/usr/local/bin/wxos-tema escuro
+
+# Ícone do WX OS no botão do menu iniciar
+dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell \
+  org.kde.PlasmaShell.evaluateScript string:'
+panels().forEach(function (p) {
+  ["org.kde.plasma.kickoff", "org.kde.plasma.kicker", "org.kde.plasma.kickerdash"].forEach(function (t) {
+    p.widgets(t).forEach(function (w) {
+      w.currentConfigGroup = ["General"];
+      w.writeConfig("icon", "/usr/share/pixmaps/wx-os.svg");
+    });
+  });
+});' >/dev/null 2>&1
+
+# No pendrive (modo live): atalho "Instalar o WX OS" na área de trabalho
+if [ -d /run/live/medium ]; then
+  DESK="$(xdg-user-dir DESKTOP 2>/dev/null)"; DESK="${DESK:-$HOME/Desktop}"
+  mkdir -p "$DESK"
+  for f in install-debian.desktop calamares.desktop; do
+    if [ -f "/usr/share/applications/$f" ]; then
+      cp "/usr/share/applications/$f" "$DESK/instalar-wx-os.desktop"
+      chmod +x "$DESK/instalar-wx-os.desktop"
+      break
+    fi
+  done
+fi
+
+mkdir -p "$HOME/.config" && touch "$MARCA"

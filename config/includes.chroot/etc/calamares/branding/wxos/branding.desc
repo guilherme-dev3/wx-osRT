@@ -1,0 +1,38 @@
+---
+componentName:  wxos
+
+welcomeStyleCalamares:   false
+welcomeExpandingLogo:    true
+windowExpanding:    normal
+windowSize: 960px,640px
+windowPlacement: center
+sidebar: widget
+navigation: widget
+
+strings:
+    productName:         "WX OS"
+    shortProductName:    "WX OS"
+    version:             "1.0"
+    shortVersion:        "1.0"
+    versionedName:       "WX OS 1.0"
+    shortVersionedName:  "WX OS 1.0"
+    # Precisa continuar "debian" por causa do GRUB assinado (Secure Boot)
+    bootloaderEntryName: "debian"
+    productUrl:          "https://souzasolucoesdigitais.com.br"
+    supportUrl:          "https://souzasolucoesdigitais.com.br"
+    knownIssuesUrl:      "https://souzasolucoesdigitais.com.br"
+    releaseNotesUrl:     "https://souzasolucoesdigitais.com.br"
+
+images:
+    productLogo:         "logo.png"
+    productIcon:         "logo.png"
+    productWelcome:      "welcome.png"
+
+slideshow:               "show.qml"
+slideshowAPI:            2
+
+style:
+   SidebarBackground:        "#052E16"
+   SidebarText:              "#FFFFFF"
+   SidebarTextCurrent:       "#052E16"
+   SidebarBackgroundCurrent: "#4ADE80"

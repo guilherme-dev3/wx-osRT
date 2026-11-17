@@ -1,0 +1,73 @@
+# ---------- Sistema live ----------
+live-boot
+live-config
+live-config-systemd
+sudo
+locales
+console-setup
+keyboard-configuration
+tzdata
+cryptsetup
+keyutils
+efibootmgr
+os-prober
+
+# ---------- Firmware (Wi-Fi, vídeo, som em PCs reais) ----------
+firmware-linux-free
+firmware-misc-nonfree
+firmware-realtek
+firmware-iwlwifi
+firmware-atheros
+firmware-brcm80211
+firmware-amd-graphics
+firmware-sof-signed
+intel-microcode
+amd64-microcode
+
+# ---------- Área de trabalho KDE Plasma ----------
+kde-plasma-desktop
+sddm
+sddm-theme-breeze
+plasma-nm
+plasma-pa
+bluedevil
+powerdevil
+kscreen
+plasma-discover
+plasma-discover-backend-flatpak
+flatpak
+network-manager
+pipewire-audio
+
+# ---------- Aplicativos ----------
+konsole
+dolphin
+kate
+ark
+okular
+gwenview
+kde-spectacle
+kcalc
+partitionmanager
+firefox-esr
+firefox-esr-l10n-pt-br
+libreoffice-writer
+libreoffice-calc
+libreoffice-impress
+libreoffice-l10n-pt-br
+hunspell-pt-br
+vlc
+curl
+wget
+nano
+htop
+unzip
+
+# ---------- Fontes ----------
+fonts-noto-core
+fonts-noto-color-emoji
+fonts-dejavu
+
+# ---------- Instalador gráfico ----------
+calamares
+calamares-settings-debian

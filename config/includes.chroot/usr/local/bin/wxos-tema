@@ -1,0 +1,28 @@
+#!/bin/bash
+# WX OS — troca entre modo claro e escuro mantendo o verde como destaque.
+# Uso: wxos-tema claro | escuro | alternar
+VERDE="#16A34A"
+modo="${1:-alternar}"
+
+ler() { kreadconfig6 "$@" 2>/dev/null || kreadconfig5 "$@" 2>/dev/null; }
+gravar() { kwriteconfig6 "$@" 2>/dev/null || kwriteconfig5 "$@" 2>/dev/null; }
+
+if [ "$modo" = "alternar" ]; then
+  atual="$(ler --file kdeglobals --group General --key ColorScheme)"
+  [ "$atual" = "BreezeDark" ] && modo=claro || modo=escuro
+fi
+
+case "$modo" in
+  claro)  esquema=BreezeLight; plasma=breeze-light; icones=breeze;      fundo=WXOS-Claro ;;
+  escuro) esquema=BreezeDark;  plasma=breeze-dark;  icones=breeze-dark; fundo=WXOS ;;
+  *) echo "Uso: wxos-tema claro|escuro|alternar"; exit 1 ;;
+esac
+
+plasma-apply-colorscheme "$esquema" >/dev/null 2>&1
+plasma-apply-desktoptheme "$plasma" >/dev/null 2>&1
+gravar --file kdeglobals --group Icons --key Theme "$icones"
+plasma-apply-colorscheme --accent-color "$VERDE" >/dev/null 2>&1 || \
+  gravar --file kdeglobals --group General --key AccentColor "22,163,74"
+img="/usr/share/wallpapers/$fundo/contents/images/1920x1080.png"
+[ -f "$img" ] && plasma-apply-wallpaperimage "$img" >/dev/null 2>&1
+echo "WX OS: modo $modo aplicado"

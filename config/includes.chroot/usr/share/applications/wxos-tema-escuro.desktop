@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Tema escuro
+Comment=Deixa o WX OS no modo escuro
+Exec=/usr/local/bin/wxos-tema escuro
+Icon=/usr/share/pixmaps/wx-os.png
+Categories=Settings;DesktopSettings;
+Keywords=tema;modo;escuro;dark;light;
