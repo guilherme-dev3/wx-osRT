@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="300" viewBox="0 0 600 300">
+  <rect width="600" height="300" rx="24" fill="#052E16"/>
+  <g transform="translate(40,70) scale(0.31)"><use href="#l"/></g>
+  <image href="logo.png" x="40" y="70" width="160" height="160"/>
+  <text x="230" y="145" font-family="DejaVu Sans, sans-serif" font-size="58" font-weight="bold" fill="#fff">WX OS</text>
+  <text x="232" y="190" font-family="DejaVu Sans, sans-serif" font-size="22" fill="#BBF7D0">Simples, rápido e em português</text>
+</svg>
