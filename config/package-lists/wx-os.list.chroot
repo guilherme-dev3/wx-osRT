@@ -51,11 +51,8 @@ kcalc
 partitionmanager
 firefox-esr
 firefox-esr-l10n-pt-br
-libreoffice-writer
-libreoffice-calc
-libreoffice-impress
-libreoffice-l10n-pt-br
-hunspell-pt-br
+# LibreOffice saiu da ISO para deixá-la leve.
+# O usuário instala pelo Discover (Flathub) com um clique.
 vlc
 curl
 wget

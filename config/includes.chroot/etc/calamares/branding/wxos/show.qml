@@ -22,13 +22,13 @@ Presentation
         Text { anchors.top: logo1.bottom; anchors.topMargin: 24; anchors.horizontalCenter: parent.horizontalCenter
                width: parent.width * 0.8; horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
                color: "#FFFFFF"; font.pixelSize: 22
-               text: "Bem-vindo ao <b>WX OS</b>.<br/>Estamos instalando o sistema no seu computador." }
+               text: "Bem-vindo ao <b>WX OS</b>.<br/>Estamos instalando o sistema no seu computador.<br/><br/><small>Desenvolvido por GR TECH</small>" }
     }
     Slide {
         Rectangle { anchors.fill: parent; color: "#14532D" }
         Text { anchors.centerIn: parent; width: parent.width * 0.8; horizontalAlignment: Text.AlignHCenter
                wrapMode: Text.WordWrap; color: "#FFFFFF"; font.pixelSize: 20
-               text: "<b>Tudo em português</b><br/><br/>Navegador, escritório (LibreOffice), vídeos e fotos já vêm prontos para usar." }
+               text: "<b>Tudo em português</b><br/><br/>Navegador, vídeos e fotos já vêm prontos para usar. O LibreOffice instala pelo Discover com um clique." }
     }
     Slide {
         Rectangle { anchors.fill: parent; color: "#15803D" }

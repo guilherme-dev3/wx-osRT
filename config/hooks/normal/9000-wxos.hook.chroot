@@ -20,9 +20,10 @@ HOME_URL="https://souzasolucoesdigitais.com.br"
 SUPPORT_URL="https://souzasolucoesdigitais.com.br"
 BUG_REPORT_URL="https://souzasolucoesdigitais.com.br"
 LOGO=wx-os
+VENDOR_NAME="GR TECH"
 OSR
 ln -sf ../usr/lib/os-release /etc/os-release
-echo "WX OS 1.0 \\n \\l" > /etc/issue
+printf '%s\n' 'WX OS 1.0 \n \l' > /etc/issue
 echo "WX OS 1.0" > /etc/issue.net
 
 # ---- Idioma, teclado ABNT2 e fuso ----
@@ -66,6 +67,26 @@ if [ -x /usr/sbin/bootloader-config ] && ! dpkg-divert --list /usr/sbin/bootload
   dpkg-divert --local --package wxos --rename --divert /usr/sbin/bootloader-config.debian --add /usr/sbin/bootloader-config
 fi
 ln -sf /usr/local/sbin/wxos-bootloader-config /usr/sbin/bootloader-config
+
+# ---- Loja: repositório Flathub no Discover (LibreOffice e outros apps) ----
+if command -v flatpak >/dev/null 2>&1; then
+  flatpak remote-add --system --if-not-exists flathub \
+    https://dl.flathub.org/repo/flathub.flatpakrepo || echo "aviso: Flathub não adicionado"
+fi
+
+# ---- ISO leve: remove idiomas extras, manuais e documentação ----
+# (o arquivo /etc/dpkg/dpkg.cfg.d/01-wxos-leve já impede que voltem)
+for d in /usr/share/locale /usr/share/help; do
+  [ -d "$d" ] || continue
+  find "$d" -mindepth 1 -maxdepth 1 -type d \
+    ! -name 'pt' ! -name 'pt_BR' ! -name 'en' ! -name 'en_US' ! -name 'en_GB' ! -name 'C' \
+    -exec rm -rf {} +
+done
+rm -rf /usr/share/man/* /usr/share/info/* /usr/share/lintian/* /usr/share/linda/*
+find /usr/share/doc -mindepth 1 ! -type d ! -name copyright -delete 2>/dev/null || true
+find /usr/share/doc -mindepth 1 -type d -empty -delete 2>/dev/null || true
+apt-get clean
+rm -f /var/cache/apt/*.bin
 
 # ---- Permissões dos scripts do WX OS ----
 chmod 755 /usr/local/bin/wxos-* /usr/local/sbin/wxos-*
