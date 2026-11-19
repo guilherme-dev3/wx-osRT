@@ -1,3 +1,23 @@
 #!/bin/bash
 set -eo pipefail
 lb build noauto "${@}" 2>&1 | tee build.log
+
+# ---- Relatório de tamanho: mostra o que mais pesa na ISO ----
+{
+  echo
+  echo "================ WX OS: RELATÓRIO DE TAMANHO ================"
+  echo "--- ISO ---"
+  ls -lh ./*.iso 2>/dev/null || true
+  echo "--- Partes da ISO ---"
+  du -sh binary/* binary/live/* 2>/dev/null | sort -rh | head -15 || true
+  echo "--- Sistema descompactado ---"
+  du -sh chroot 2>/dev/null || true
+  echo "--- Pastas que mais pesam ---"
+  du -xh --max-depth=3 chroot/usr chroot/opt chroot/var 2>/dev/null | sort -rh | head -25 || true
+  echo "--- 40 pacotes maiores (MB instalado) ---"
+  dpkg-query --admindir=chroot/var/lib/dpkg -W -f '${Installed-Size}\t${Package}\n' 2>/dev/null \
+    | sort -rn | head -40 | awk '{printf "%8.1f MB  %s\n", $1/1024, $2}' || true
+  echo "--- Total de pacotes ---"
+  dpkg-query --admindir=chroot/var/lib/dpkg -W 2>/dev/null | wc -l || true
+  echo "============================================================"
+} 2>&1 | tee -a build.log
