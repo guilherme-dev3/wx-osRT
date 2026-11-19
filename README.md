@@ -1,6 +1,6 @@
 # WX OS 1.0
 
-Distribuição Linux da **Souza Soluções Digitais**: base **Debian 13 (trixie)**, área de trabalho **KDE Plasma**, verde como cor principal, modo claro e escuro, tudo em **português do Brasil**, teclado **ABNT2** e instalador gráfico (**Calamares**).
+Distribuição Linux criada pela **GR TECH**: base **Debian 13 (trixie)**, área de trabalho **KDE Plasma**, verde como cor principal, modo claro e escuro, tudo em **português do Brasil**, teclado **ABNT2** e instalador gráfico (**Calamares**).
 
 ## O que vem no sistema
 
@@ -8,14 +8,14 @@ Distribuição Linux da **Souza Soluções Digitais**: base **Debian 13 (trixie)
 |---|---|
 | Visual | Plasma com destaque verde `#16A34A`, papéis de parede WX OS claro/escuro, ícone WX OS no menu iniciar, tela de login personalizada |
 | Idioma | pt-BR, teclado ABNT2, fuso America/Sao_Paulo |
-| Programas | Firefox ESR (pt-BR), LibreOffice (Writer, Calc, Impress), VLC, Dolphin, Kate, Okular, Gwenview, Spectacle, Ark, Calculadora, Gerenciador de partições |
-| Loja | Discover com Flatpak |
+| Programas | Firefox ESR (pt-BR), VLC, Dolphin, Kate, Okular, Gwenview, Spectacle, Ark, Calculadora, Gerenciador de partições |
+| Loja | Discover com Flathub (LibreOffice, Spotify, WhatsApp etc. com um clique) |
 | Hardware | Firmwares de Wi-Fi (Intel, Realtek, Atheros, Broadcom), placas AMD, som Intel SOF, microcódigo Intel/AMD |
 | Instalador | Calamares com a marca WX OS; instala o GRUB **sem precisar de internet**; funciona em UEFI (com Secure Boot) e BIOS antiga |
 
 ## Como compilar a ISO (GitHub Actions)
 
-1. Crie um repositório **público** chamado `wx-os` no GitHub (público tem minutos ilimitados de Actions).
+1. Crie um repositório **público** (ex.: `wx-osRT`) no GitHub (público tem minutos ilimitados de Actions).
 2. Envie todo o conteúdo desta pasta para o repositório (branch `main`).
 3. A compilação começa sozinha. Acompanhe na aba **Actions** (leva de 40 a 70 minutos).
 4. Ao terminar, abra a execução e baixe o artifact **wx-os-1.0-amd64** (a ISO + o arquivo sha256).
@@ -51,7 +51,6 @@ config/package-lists/               lista de pacotes do sistema
 config/hooks/normal/9000-wxos...    identidade (os-release), idioma, teclado, instalador
 config/includes.chroot/             arquivos copiados para dentro do sistema
   etc/calamares/branding/wxos/      marca do instalador (logo, cores, slides)
-  etc/skel/.config/                 padrões do Plasma para todo usuário novo
   usr/local/bin/wxos-tema           troca claro/escuro
   usr/local/bin/wxos-primeiro-login ajustes no primeiro login
   usr/local/sbin/wxos-bootloader-config  GRUB offline durante a instalação
@@ -59,6 +58,13 @@ config/includes.chroot/             arquivos copiados para dentro do sistema
 branding/                           arquivos-fonte (SVG) do logo e papéis de parede
 .github/workflows/build-iso.yml     compilação automática
 ```
+
+## ISO leve
+
+- LibreOffice fica fora da ISO (instala pelo Discover → Flathub).
+- Só ficam traduções pt-BR/inglês; manuais (`man`) e documentação são removidos.
+- A regra vale também no sistema instalado: `/etc/dpkg/dpkg.cfg.d/01-wxos-leve`.
+  Para voltar a ter manuais e todos os idiomas, apague esse arquivo e reinstale os pacotes.
 
 ## Adicionar ou remover programas
 
