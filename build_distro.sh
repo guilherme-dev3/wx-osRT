@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# SCRIPT DE CONSTRUÇÃO E REMASTERIZAÇÃO: DEBIAN 13 (TRIXIE)
+# SCRIPT DE CONSTRUÇÃO E REMASTERIZAÇÃO: UBUNTU 24.04 LTS (NOBLE NUMBAT)
 # Projeto: Distro Personalizada Leve (XFCE4 + Picom + Plank + Brave)
 # Foco: Hardware Modesto (<650MB RAM ociosa), Visual macOS, Usabilidade Windows
 # ==============================================================================
@@ -17,7 +17,7 @@ IFS=$'\n\t'
 DISTRO_NAME="${1:-MinhaDistro}"
 DISTRO_VERSION="${2:-1.4}"
 DISTRO_TIMEZONE="${3:-America/Porto_Velho}"
-DISTRO_CODENAME="trixie"
+DISTRO_CODENAME="noble"
 DISTRO_ID="$(echo "${DISTRO_NAME}" | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:]_-')"
 [ -z "${DISTRO_ID}" ] && DISTRO_ID="minhadistro"
 
@@ -45,25 +45,20 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-log_step "Iniciando remasterização do ${DISTRO_NAME} v${DISTRO_VERSION} (Debian 13 ${DISTRO_CODENAME})"
+log_step "Iniciando remasterização do ${DISTRO_NAME} v${DISTRO_VERSION} (Ubuntu 24.04 LTS ${DISTRO_CODENAME})"
 
 # ------------------------------------------------------------------------------
-# 1. REPOSITÓRIOS APT (MAIN, CONTRIB, NON-FREE, NON-FREE-FIRMWARE)
+# 1. REPOSITÓRIOS APT (MAIN, RESTRICTED, UNIVERSE, MULTIVERSE)
 # ------------------------------------------------------------------------------
-log_step "1/14. Configurando repositórios APT oficiais do Debian 13 (Trixie)..."
+log_step "1/14. Configurando repositórios APT oficiais do Ubuntu 24.04 LTS (Noble Numbat)..."
 
 mkdir -p /etc/apt/keyrings /etc/apt/sources.list.d
 
 cat > /etc/apt/sources.list <<EOF
-# Debian 13 Trixie - Repositórios Oficiais
-deb http://deb.debian.org/debian/ ${DISTRO_CODENAME} main contrib non-free non-free-firmware
-deb http://deb.debian.org/debian/ ${DISTRO_CODENAME}-updates main contrib non-free non-free-firmware
-deb http://security.debian.org/debian-security ${DISTRO_CODENAME}-security main contrib non-free non-free-firmware
-
-# Repositórios de código-fonte (opcional, desativados por padrão)
-# deb-src http://deb.debian.org/debian/ ${DISTRO_CODENAME} main contrib non-free non-free-firmware
-# deb-src http://deb.debian.org/debian/ ${DISTRO_CODENAME}-updates main contrib non-free non-free-firmware
-# deb-src http://security.debian.org/debian-security ${DISTRO_CODENAME}-security main contrib non-free non-free-firmware
+# Ubuntu 24.04 LTS Noble Numbat - Repositórios Oficiais
+deb http://archive.ubuntu.com/ubuntu/ ${DISTRO_CODENAME} main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ ${DISTRO_CODENAME}-updates main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu ${DISTRO_CODENAME}-security main restricted universe multiverse
 EOF
 
 apt-get update -y
@@ -169,12 +164,7 @@ log_success "ZRAM e parâmetros do Kernel otimizados."
 log_step "4/14. Instalando firmwares Wi-Fi, microcódigos e aceleração de vídeo VA-API/Vulkan..."
 
 apt-get install -y --no-install-recommends \
-    firmware-linux \
-    firmware-linux-nonfree \
-    firmware-iwlwifi \
-    firmware-realtek \
-    firmware-atheros \
-    firmware-brcm80211 \
+    linux-firmware \
     intel-microcode \
     amd64-microcode \
     mesa-vulkan-drivers \
@@ -614,7 +604,7 @@ EOF
 apt-get update -y
 apt-get install -y brave-browser
 
-# Define Brave como navegador padrão nas alternativas do Debian
+# Define Brave como navegador padrão nas alternativas do sistema
 update-alternatives --install /usr/bin/x-www-browser x-www-browser /usr/bin/brave-browser 200
 update-alternatives --set x-www-browser /usr/bin/brave-browser
 update-alternatives --install /usr/bin/gnome-www-browser gnome-www-browser /usr/bin/brave-browser 200
@@ -771,19 +761,19 @@ log_success "Temas, ícones, cursores e telas de login/boot configurados."
 # ------------------------------------------------------------------------------
 log_step "13/14. Atualizando metadados de identidade para ${DISTRO_NAME} v${DISTRO_VERSION}..."
 
-# os-release com proteção via dpkg-divert contra sobrescrita por updates do Debian
+# os-release com proteção via dpkg-divert contra sobrescrita por updates do Ubuntu
 if ! dpkg-divert --list /usr/lib/os-release | grep -q "${DISTRO_ID}"; then
-  dpkg-divert --local --package "${DISTRO_ID}" --rename --divert /usr/lib/os-release.debian --add /usr/lib/os-release || true
+  dpkg-divert --local --package "${DISTRO_ID}" --rename --divert /usr/lib/os-release.ubuntu --add /usr/lib/os-release || true
 fi
 
 cat > /usr/lib/os-release <<EOF
 PRETTY_NAME="${DISTRO_NAME} ${DISTRO_VERSION}"
 NAME="${DISTRO_NAME}"
 VERSION_ID="${DISTRO_VERSION}"
-VERSION="${DISTRO_VERSION} (base Debian ${DISTRO_CODENAME})"
+VERSION="${DISTRO_VERSION} (base Ubuntu 24.04 LTS ${DISTRO_CODENAME})"
 VERSION_CODENAME=${DISTRO_CODENAME}
 ID=${DISTRO_ID}
-ID_LIKE=debian
+ID_LIKE="ubuntu debian"
 HOME_URL="https://github.com"
 SUPPORT_URL="https://github.com"
 BUG_REPORT_URL="https://github.com"
@@ -829,7 +819,7 @@ find /var/log -type f -exec truncate -s 0 {} +
 echo -e "\n${BOLD}${GREEN}========================================================================${NC}"
 echo -e "${BOLD}${GREEN} REMASTERIZAÇÃO CONCLUÍDA COM SUCESSO!${NC}"
 echo -e "${BOLD} Distro:   ${DISTRO_NAME} v${DISTRO_VERSION}${NC}"
-echo -e "${BOLD} Base:     Debian 13 (Trixie) Minimal${NC}"
+echo -e "${BOLD} Base:     Ubuntu 24.04 LTS (Noble Numbat)${NC}"
 echo -e "${BOLD} Desktop:  XFCE4 + Picom (GLX) + Plank Zoom (150%)${NC}"
 echo -e "${BOLD} Áudio:    PipeWire + WirePlumber (Plug-and-play)${NC}"
 echo -e "${BOLD} Navegador: Brave Browser (Padrão)${NC}"

@@ -1,6 +1,6 @@
 # WX OS 1.0 — Edição macOS
 
-Distribuição Linux criada pela **GR TECH**: base **Debian 13 (trixie)**, área de trabalho **KDE Plasma** totalmente personalizada com **interface limpa e fluida inspirada no macOS**, destaque verde esmeralda (`#10B981`), papéis de parede abstratos em 4K, tudo em **português do Brasil**, teclado **ABNT2** e instalador gráfico (**Calamares**).
+Distribuição Linux criada pela **GR TECH**: base **Ubuntu 24.04 LTS (noble)**, área de trabalho **KDE Plasma** totalmente personalizada com **interface limpa e fluida inspirada no macOS**, destaque violeta neon (`#8B5CF6`), papéis de parede abstratos em 4K em tons de azul e púrpura luminoso, tudo em **português do Brasil**, teclado **ABNT2** e instalador gráfico (**Calamares**).
 
 ---
 
@@ -9,11 +9,11 @@ Distribuição Linux criada pela **GR TECH**: base **Debian 13 (trixie)**, área
 | Elemento | Descrição |
 |---|---|
 | **Barra Superior (Menu Bar)** | Barra fina translúcida no topo com menu iniciar WX OS, **Menu Global unificado** (Arquivo, Editar, Exibir...) da janela ativa, espaçador, bandeja de sistema e relógio digital limpo. |
-| **Dock Flutuante Inferior** | Dock centralizado e flutuante no estilo macOS com atalhos para Finder (Dolphin), Navegador (Firefox), Terminal (Konsole), Editor (Kate), Vídeos (VLC), Loja (Discover), Preferências e Lixeira. |
+| **Dock Flutuante Inferior** | Dock em formato cápsula flutuante e centralizado no estilo macOS/iPadOS com atalhos em squircle para Dolphin, Brave/Firefox, Konsole, Kate, VLC, Discover, Preferências, Calculadora e Lixeira. |
 | **Controles de Janela (Semáforo)** | Botões Fechar (vermelho), Minimizar (amarelo) e Maximizar (verde) posicionados no canto **superior esquerdo** das janelas. |
 | **Tipografia Inter** | Fonte moderna Inter (mesma métrica e clareza da San Francisco da Apple) com renderização subpixel e anti-aliasing de altíssima nitidez. |
-| **Ícones Papirus & Squircles** | Pacote de ícones modernos em squircle e novo logotipo 3D refinado no padrão dos ícones de apps do macOS. |
-| **Gráficos em 4K / HD** | Novos papéis de parede abstratos em camadas fluidas (ondas orgânicas) para modo claro e escuro em resoluções 3840×2160 e 1920×1080. |
+| **Ícones WhiteSur & Squircles** | Pacote de ícones modernos no padrão squircle do macOS Big Sur com cantos perfeitamente arredondados e alta saturação. |
+| **Gráficos em 4K / HD** | Novos papéis de parede fluidos em tons de violeta, púrpura e azul profundo com iluminação neon âmbar em resoluções 3840×2160 e 1920×1080. |
 | **Tela de Login SDDM** | Fundo translúcido com efeito de desfoque suave (blur) e caixa de login limpa e centralizada. |
 
 ---
@@ -26,7 +26,7 @@ Distribuição Linux criada pela **GR TECH**: base **Debian 13 (trixie)**, área
 | **Idioma** | pt-BR completo, teclado ABNT2, fuso America/Sao_Paulo |
 | **Programas** | Firefox ESR (pt-BR), VLC, Dolphin, Kate, Okular, Gwenview, Spectacle, Ark, Calculadora, Gerenciador de partições |
 | **Loja** | Discover com Flathub integrado (LibreOffice, Spotify, Discord, Chrome com 1 clique) |
-| **Hardware** | Firmwares de Wi-Fi (Intel, Realtek, Atheros, Broadcom), placas AMD, som Intel SOF, microcódigo Intel/AMD |
+| **Hardware** | Firmwares e drivers (Intel, Realtek, Atheros, Broadcom, AMD, som Intel SOF, microcódigo) via linux-firmware |
 | **Instalador** | Calamares com apresentação gráfica moderna, instalação offline do GRUB em UEFI e BIOS Legacy |
 
 ---
@@ -80,7 +80,7 @@ A ISO será anexada automaticamente na aba **Releases**.
 ## Estrutura do projeto
 
 ```
-auto/config                         opções do live-build (Debian trixie, pt-BR, nome da ISO)
+auto/config                         opções do live-build (Ubuntu 24.04 noble, pt-BR, nome da ISO)
 config/package-lists/               lista de pacotes (KDE Plasma, Inter, Papirus, Flatpak)
 config/hooks/normal/9000-wxos...    identidade (os-release), idioma, teclado, instalador, fontes
 config/includes.chroot/             arquivos copiados para dentro do sistema

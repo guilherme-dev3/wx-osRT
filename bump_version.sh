@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # SCRIPT DE ATUALIZAÇÃO DE VERSÃO (BUMP VERSION)
-# Projeto: Remasterização Debian 13 (Trixie)
+# Projeto: Remasterização Ubuntu 24.04 LTS (Noble Numbat)
 # ==============================================================================
 # Atualiza automaticamente:
 # - /etc/os-release e /usr/lib/os-release
@@ -15,7 +15,7 @@
 #   sudo ./bump_version.sh <NOVA_VERSAO> [CODENAME_OPCIONAL] [DIRETORIO_ROOTFS]
 # Exemplo:
 #   sudo ./bump_version.sh 1.5
-#   sudo ./bump_version.sh 2.0 trixie /caminho/chroot
+#   sudo ./bump_version.sh 2.0 noble /caminho/chroot
 # ==============================================================================
 
 set -euo pipefail
@@ -39,7 +39,7 @@ NEW_VERSION="${1:-}"
 if [ -z "${NEW_VERSION}" ]; then
     echo -e "${BOLD}Uso:${NC} sudo $0 <NOVA_VERSAO> [CODENAME] [ROOTFS_PATH]"
     echo -e "Exemplo: sudo $0 1.5"
-    echo -e "Exemplo: sudo $0 2.0 trixie /var/chroot"
+    echo -e "Exemplo: sudo $0 2.0 noble /var/chroot"
     exit 1
 fi
 
@@ -59,7 +59,7 @@ LIGHTDM_CONF="${TARGET_ROOT}/etc/lightdm/lightdm-gtk-greeter.conf"
 
 # Identificar nome da distro atual a partir do os-release existente
 CURRENT_DISTRO_NAME="MinhaDistro"
-CURRENT_CODENAME="${2:-trixie}"
+CURRENT_CODENAME="${2:-noble}"
 
 if [ -f "${OS_RELEASE_USR}" ]; then
     CURRENT_DISTRO_NAME="$(grep -E '^NAME=' "${OS_RELEASE_USR}" | head -n1 | cut -d'=' -f2 | tr -d '"')"
@@ -87,10 +87,10 @@ cat > "${OS_RELEASE_USR}" <<EOF
 PRETTY_NAME="${CURRENT_DISTRO_NAME} ${NEW_VERSION}"
 NAME="${CURRENT_DISTRO_NAME}"
 VERSION_ID="${NEW_VERSION}"
-VERSION="${NEW_VERSION} (base Debian ${CURRENT_CODENAME})"
+VERSION="${NEW_VERSION} (base Ubuntu 24.04 LTS ${CURRENT_CODENAME})"
 VERSION_CODENAME=${CURRENT_CODENAME}
 ID=${DISTRO_ID}
-ID_LIKE=debian
+ID_LIKE="ubuntu debian"
 HOME_URL="https://github.com"
 SUPPORT_URL="https://github.com"
 BUG_REPORT_URL="https://github.com"
