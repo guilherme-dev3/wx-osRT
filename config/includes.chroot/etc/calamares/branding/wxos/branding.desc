@@ -16,8 +16,8 @@ strings:
     shortVersion:        "1.0"
     versionedName:       "WX OS 1.0 (macOS Edition)"
     shortVersionedName:  "WX OS 1.0"
-    # Precisa continuar "debian" por causa do GRUB assinado (Secure Boot)
-    bootloaderEntryName: "debian"
+    # No Ubuntu, o identificador do GRUB assinado (Secure Boot) é "ubuntu"
+    bootloaderEntryName: "ubuntu"
     productUrl:          "https://souzasolucoesdigitais.com.br"
     supportUrl:          "https://souzasolucoesdigitais.com.br"
     knownIssuesUrl:      "https://souzasolucoesdigitais.com.br"

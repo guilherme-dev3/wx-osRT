@@ -11,16 +11,10 @@ cryptsetup
 keyutils
 efibootmgr
 os-prober
+linux-generic
 
 # ---------- Firmware (Wi-Fi, vídeo, som em PCs reais) ----------
-firmware-linux-free
-firmware-misc-nonfree
-firmware-realtek
-firmware-iwlwifi
-firmware-atheros
-firmware-brcm80211
-firmware-amd-graphics
-firmware-sof-signed
+linux-firmware
 intel-microcode
 amd64-microcode
 
@@ -60,9 +54,7 @@ gwenview
 kde-spectacle
 kcalc
 partitionmanager
-firefox-esr
-firefox-esr-l10n-pt-br
-# LibreOffice instala pelo Discover (Flathub) com um clique.
+# Navegador e LibreOffice podem ser instalados pelo Discover (Flathub) ou Brave via script
 vlc
 curl
 wget
@@ -78,4 +70,4 @@ fonts-dejavu
 
 # ---------- Instalador gráfico ----------
 calamares
-calamares-settings-debian
+calamares-settings-ubuntu

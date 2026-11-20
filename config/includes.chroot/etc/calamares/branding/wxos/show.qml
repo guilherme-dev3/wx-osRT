@@ -22,7 +22,7 @@ Presentation
         Text { anchors.top: logo1.bottom; anchors.topMargin: 22; anchors.horizontalCenter: parent.horizontalCenter
                width: parent.width * 0.85; horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
                color: "#FFFFFF"; font.pixelSize: 22; font.family: "Inter"
-               text: "Bem-vindo ao <b>WX OS</b>.<br/>A elegância do macOS com a robustez e estabilidade do Debian.<br/><br/><small style='color:#34D399'>Desenvolvido por GR TECH</small>" }
+               text: "Bem-vindo ao <b>WX OS</b>.<br/>A elegância do macOS com a robustez e compatibilidade do Ubuntu.<br/><br/><small style='color:#34D399'>Desenvolvido por GR TECH</small>" }
     }
     Slide {
         Rectangle { anchors.fill: parent; color: "#0F172A" }

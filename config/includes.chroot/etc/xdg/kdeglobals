@@ -1,5 +1,5 @@
 [General]
-AccentColor=16,185,129
+AccentColor=139,92,246
 ColorScheme=BreezeDark
 TerminalApplication=konsole
 XftAntialias=true
@@ -13,7 +13,7 @@ toolBarFont=Inter,10,-1,5,50,0,0,0,0,0
 windowTitleFont=Inter,10,-1,5,70,0,0,0,0,0,Bold
 
 [Icons]
-Theme=Papirus-Dark
+Theme=WhiteSur-dark
 
 [KDE]
 ShowDeleteCommand=true

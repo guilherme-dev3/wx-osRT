@@ -2,12 +2,16 @@
 # WX OS — configuração automática da interface estilo macOS no primeiro login
 MARCA="$HOME/.config/wxos-primeiro-login"
 [ -f "$MARCA" ] && exit 0
-sleep 4   # aguarda inicialização do Plasma
+sleep 3   # aguarda inicialização do Plasma
 
-# Aplica o tema escuro estilo macOS e papel de parede fluido
+# Habilita execução de scripts no Plasma
+kwriteconfig5 --file ~/.config/plasmashellrc --group General --key AllowKRunnerScripts true 2>/dev/null || true
+kwriteconfig6 --file ~/.config/plasmashellrc --group General --key AllowKRunnerScripts true 2>/dev/null || true
+
+# Aplica o tema escuro estilo macOS e papel de parede fluido (roxo e azul neon)
 /usr/local/bin/wxos-tema escuro
 
-# Constrói o layout nativo do macOS: Barra Superior + Dock Flutuante
+# Constrói a Dock Flutuante Centralizada (macOS Capsule Dock)
 dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell \
   org.kde.PlasmaShell.evaluateScript string:'
 var allPanels = panels();
@@ -15,52 +19,44 @@ for (var i = 0; i < allPanels.length; i++) {
     allPanels[i].remove();
 }
 
-// 1. Barra de Menus Superior (macOS Menu Bar)
-var topBar = new Panel();
-topBar.location = "top";
-topBar.height = 28;
-topBar.floating = false;
+// Dock Flutuante Centralizada (macOS Capsule Dock)
+var dock = new Panel();
+dock.location = "bottom";
+dock.height = 64;
+dock.alignment = "center";
+dock.floating = true;
+dock.lengthMode = "fitContent";
 
 // Lançador de aplicativos com ícone WX OS
-var kickoff = topBar.addWidget("org.kde.plasma.kickoff");
+var kickoff = dock.addWidget("org.kde.plasma.kickoff");
 kickoff.currentConfigGroup = ["General"];
 kickoff.writeConfig("icon", "/usr/share/pixmaps/wx-os.svg");
 
-// Menu Global da janela ativa (Arquivo, Editar, Exibir...)
-topBar.addWidget("org.kde.plasma.appmenu");
-
-// Espaçador flexível (empurra itens da direita)
-topBar.addWidget("org.kde.plasma.panelspacer");
-
-// Bandeja do sistema (Wi-Fi, Bluetooth, Áudio, Bateria, Notificações)
-topBar.addWidget("org.kde.plasma.systemtray");
-
-// Relógio digital estilo macOS
-var clock = topBar.addWidget("org.kde.plasma.digitalclock");
-clock.currentConfigGroup = ["Appearance"];
-clock.writeConfig("showDate", "true");
-clock.writeConfig("dateFormat", "shortDate");
-
-// 2. Dock Flutuante Centralizado (macOS Dock)
-var dock = new Panel();
-dock.location = "bottom";
-dock.height = 58;
-dock.alignment = "center";
-dock.floating = true;
-
+// Lançadores de Aplicativos Essenciais
 var tasks = dock.addWidget("org.kde.plasma.icontasks");
 tasks.currentConfigGroup = ["General"];
 tasks.writeConfig("launchers", [
     "applications:org.kde.dolphin.desktop",
-    "applications:firefox-esr.desktop",
+    "applications:brave-browser.desktop",
     "applications:org.kde.konsole.desktop",
     "applications:org.kde.kate.desktop",
     "applications:vlc.desktop",
     "applications:org.kde.discover.desktop",
-    "applications:systemsettings.desktop"
+    "applications:systemsettings.desktop",
+    "applications:org.kde.kcalc.desktop",
+    "applications:org.kde.spectacle.desktop"
 ]);
 
-// Lixeira na extremidade do Dock
+// Bandeja do Sistema e Notificações (Wi-Fi, Bluetooth, Áudio, Bateria)
+dock.addWidget("org.kde.plasma.systemtray");
+
+// Relógio digital limpo estilo macOS
+var clock = dock.addWidget("org.kde.plasma.digitalclock");
+clock.currentConfigGroup = ["Appearance"];
+clock.writeConfig("showDate", "false");
+clock.writeConfig("dateFormat", "shortDate");
+
+// Lixeira na extremidade da Dock
 dock.addWidget("org.kde.plasma.trash");
 ' >/dev/null 2>&1
 
@@ -68,7 +64,7 @@ dock.addWidget("org.kde.plasma.trash");
 if [ -d /run/live/medium ]; then
   DESK="$(xdg-user-dir DESKTOP 2>/dev/null)"; DESK="${DESK:-$HOME/Desktop}"
   mkdir -p "$DESK"
-  for f in install-debian.desktop calamares.desktop; do
+  for f in install-ubuntu.desktop install-debian.desktop calamares.desktop io.calamares.calamares.desktop; do
     if [ -f "/usr/share/applications/$f" ]; then
       cp "/usr/share/applications/$f" "$DESK/instalar-wx-os.desktop"
       chmod +x "$DESK/instalar-wx-os.desktop"
