@@ -1,15 +1,52 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#052E16"/><stop offset="1" stop-color="#0B1F14"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#060C0E"/>
+      <stop offset="50%" stop-color="#0B191F"/>
+      <stop offset="100%" stop-color="#081014"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0.78" cy="0.3" r="0.55">
-      <stop offset="0" stop-color="#22C55E" stop-opacity="0.35"/><stop offset="1" stop-color="#22C55E" stop-opacity="0"/>
+    <radialGradient id="glowEmerald" cx="0.75" cy="0.35" r="0.6">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
     </radialGradient>
+    <radialGradient id="glowTeal" cx="0.25" cy="0.65" r="0.55">
+      <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#06B6D4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ribbon1" x1="0" y1="0" x2="1" y2="0.6">
+      <stop offset="0%" stop-color="#0F172A" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#064E3B" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="ribbon2" x1="0" y1="0" x2="1" y2="0.8">
+      <stop offset="0%" stop-color="#047857" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0D9488" stop-opacity="0.75"/>
+    </linearGradient>
+    <linearGradient id="ribbon3" x1="0" y1="0.2" x2="1" y2="1">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.75"/>
+      <stop offset="60%" stop-color="#059669" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0F766E" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="rimLight" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#34D399" stop-opacity="0.2"/>
+      <stop offset="50%" stop-color="#6EE7B7" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#2DD4BF" stop-opacity="0.3"/>
+    </linearGradient>
   </defs>
+
+  <!-- Deep Canvas -->
   <rect width="1920" height="1080" fill="url(#bg)"/>
-  <rect width="1920" height="1080" fill="url(#glow)"/>
-  <path d="M0 760 C 420 640, 760 900, 1180 780 S 1720 600, 1920 680 L1920 1080 L0 1080 Z" fill="#15803D" opacity="0.55"/>
-  <path d="M0 880 C 380 800, 820 1000, 1260 900 S 1760 780, 1920 840 L1920 1080 L0 1080 Z" fill="#14532D" opacity="0.7"/>
-  <text x="1840" y="1030" text-anchor="end" font-family="DejaVu Sans, sans-serif" font-size="34" font-weight="bold" fill="#BBF7D0" opacity="0.6">WX OS</text>
+  <rect width="1920" height="1080" fill="url(#glowEmerald)"/>
+  <rect width="1920" height="1080" fill="url(#glowTeal)"/>
+
+  <!-- Fluid macOS Ribbon Layer 1 -->
+  <path d="M 0 680 C 460 520, 840 820, 1320 660 S 1780 480, 1920 540 L 1920 1080 L 0 1080 Z" fill="url(#ribbon1)"/>
+  <path d="M 0 680 C 460 520, 840 820, 1320 660 S 1780 480, 1920 540" fill="none" stroke="url(#rimLight)" stroke-width="2.5" opacity="0.6"/>
+
+  <!-- Fluid macOS Ribbon Layer 2 -->
+  <path d="M 0 780 C 400 660, 880 940, 1380 770 S 1760 620, 1920 700 L 1920 1080 L 0 1080 Z" fill="url(#ribbon2)"/>
+  <path d="M 0 780 C 400 660, 880 940, 1380 770 S 1760 620, 1920 700" fill="none" stroke="url(#rimLight)" stroke-width="2.5" opacity="0.8"/>
+
+  <!-- Fluid macOS Ribbon Layer 3 -->
+  <path d="M 0 880 C 380 790, 840 1010, 1280 880 S 1750 740, 1920 820 L 1920 1080 L 0 1080 Z" fill="url(#ribbon3)"/>
+  <path d="M 0 880 C 380 790, 840 1010, 1280 880 S 1750 740, 1920 820" fill="none" stroke="#A7F3D0" stroke-width="2" opacity="0.9"/>
 </svg>

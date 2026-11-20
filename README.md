@@ -1,77 +1,96 @@
-# WX OS 1.0
+# WX OS 1.0 — Edição macOS
 
-Distribuição Linux criada pela **GR TECH**: base **Debian 13 (trixie)**, área de trabalho **KDE Plasma**, verde como cor principal, modo claro e escuro, tudo em **português do Brasil**, teclado **ABNT2** e instalador gráfico (**Calamares**).
+Distribuição Linux criada pela **GR TECH**: base **Debian 13 (trixie)**, área de trabalho **KDE Plasma** totalmente personalizada com **interface limpa e fluida inspirada no macOS**, destaque verde esmeralda (`#10B981`), papéis de parede abstratos em 4K, tudo em **português do Brasil**, teclado **ABNT2** e instalador gráfico (**Calamares**).
+
+---
+
+## Destaques Visuais & Interface macOS
+
+| Elemento | Descrição |
+|---|---|
+| **Barra Superior (Menu Bar)** | Barra fina translúcida no topo com menu iniciar WX OS, **Menu Global unificado** (Arquivo, Editar, Exibir...) da janela ativa, espaçador, bandeja de sistema e relógio digital limpo. |
+| **Dock Flutuante Inferior** | Dock centralizado e flutuante no estilo macOS com atalhos para Finder (Dolphin), Navegador (Firefox), Terminal (Konsole), Editor (Kate), Vídeos (VLC), Loja (Discover), Preferências e Lixeira. |
+| **Controles de Janela (Semáforo)** | Botões Fechar (vermelho), Minimizar (amarelo) e Maximizar (verde) posicionados no canto **superior esquerdo** das janelas. |
+| **Tipografia Inter** | Fonte moderna Inter (mesma métrica e clareza da San Francisco da Apple) com renderização subpixel e anti-aliasing de altíssima nitidez. |
+| **Ícones Papirus & Squircles** | Pacote de ícones modernos em squircle e novo logotipo 3D refinado no padrão dos ícones de apps do macOS. |
+| **Gráficos em 4K / HD** | Novos papéis de parede abstratos em camadas fluidas (ondas orgânicas) para modo claro e escuro em resoluções 3840×2160 e 1920×1080. |
+| **Tela de Login SDDM** | Fundo translúcido com efeito de desfoque suave (blur) e caixa de login limpa e centralizada. |
+
+---
 
 ## O que vem no sistema
 
 | Área | Conteúdo |
 |---|---|
-| Visual | Plasma com destaque verde `#16A34A`, papéis de parede WX OS claro/escuro, ícone WX OS no menu iniciar, tela de login personalizada |
-| Idioma | pt-BR, teclado ABNT2, fuso America/Sao_Paulo |
-| Programas | Firefox ESR (pt-BR), VLC, Dolphin, Kate, Okular, Gwenview, Spectacle, Ark, Calculadora, Gerenciador de partições |
-| Loja | Discover com Flathub (LibreOffice, Spotify, WhatsApp etc. com um clique) |
-| Hardware | Firmwares de Wi-Fi (Intel, Realtek, Atheros, Broadcom), placas AMD, som Intel SOF, microcódigo Intel/AMD |
-| Instalador | Calamares com a marca WX OS; instala o GRUB **sem precisar de internet**; funciona em UEFI (com Secure Boot) e BIOS antiga |
+| **Visual** | Plasma com layout macOS, tema escuro nativo (ou claro), aceleração gráfica Mesa 3D |
+| **Idioma** | pt-BR completo, teclado ABNT2, fuso America/Sao_Paulo |
+| **Programas** | Firefox ESR (pt-BR), VLC, Dolphin, Kate, Okular, Gwenview, Spectacle, Ark, Calculadora, Gerenciador de partições |
+| **Loja** | Discover com Flathub integrado (LibreOffice, Spotify, Discord, Chrome com 1 clique) |
+| **Hardware** | Firmwares de Wi-Fi (Intel, Realtek, Atheros, Broadcom), placas AMD, som Intel SOF, microcódigo Intel/AMD |
+| **Instalador** | Calamares com apresentação gráfica moderna, instalação offline do GRUB em UEFI e BIOS Legacy |
+
+---
+
+## Alternar Modo Claro / Escuro
+
+No menu ou pelo atalho, procure por **Tema claro** ou **Tema escuro**. Pelo terminal:
+
+```bash
+wxos-tema claro      # Aplica visual claro estilo macOS (Breeze Light + Papirus + Wall Claro)
+wxos-tema escuro     # Aplica visual escuro estilo macOS (Breeze Dark + Papirus Dark + Wall Escuro)
+wxos-tema alternar   # Alterna entre os dois modos
+```
+
+---
 
 ## Como compilar a ISO (GitHub Actions)
 
-1. Crie um repositório **público** (ex.: `wx-osRT`) no GitHub (público tem minutos ilimitados de Actions).
-2. Envie todo o conteúdo desta pasta para o repositório (branch `main`).
-3. A compilação começa sozinha. Acompanhe na aba **Actions** (leva de 40 a 70 minutos).
-4. Ao terminar, abra a execução e baixe o artifact **wx-os-1.0-amd64** (a ISO + o arquivo sha256).
+1. Crie um repositório **público** (ex.: `wx-osRT`) no seu GitHub.
+2. Envie todo o conteúdo desta pasta para o repositório (branch `main`):
+   ```bash
+   git init
+   git add .
+   git commit -m "WX OS 1.0 - Interface macOS e gráficos refinados"
+   git branch -M main
+   git remote add origin https://github.com/SEU-USUARIO/SEU-REPOSITORIO.git
+   git push -u origin main
+   ```
+3. A compilação é iniciada automaticamente pelo GitHub Actions (leva de 40 a 60 minutos).
+4. Ao concluir, vá até a aba **Actions** e baixe o artefato **wx-os-1.0-amd64** (contendo a ISO pronta para boot e o arquivo de verificação sha256).
 
-### Publicar uma versão oficial (aba Releases)
+### Publicar uma versão oficial (Aba Releases)
 
 ```bash
 git tag v1.0
 git push origin v1.0
 ```
 
-A ISO aparece em **Releases**. Se passar de 2 GB (limite do GitHub por arquivo), ela é dividida em partes `.part00`, `.part01`; as instruções para juntar ficam na própria Release.
+A ISO será anexada automaticamente na aba **Releases**.
+
+---
 
 ## Como testar
 
-- **Máquina virtual:** VirtualBox ou GNOME Boxes, com 4 GB de RAM, 2 CPUs, disco de 25 GB. Para testar UEFI no VirtualBox, marque *Ativar EFI*.
-- **Pendrive:** grave a ISO com o **Rufus** (modo *DD* quando ele perguntar) ou **balenaEtcher**.
-- O sistema inicia direto no usuário `wxos` (senha `live`). Na área de trabalho fica o atalho **Instalar o WX OS**.
+- **Máquina virtual:** VirtualBox, VMware ou GNOME Boxes com 4 GB de RAM, 2 CPUs e 25 GB de disco.
+- **Pendrive inicializável:** Grave a ISO com o **Rufus** (selecionando o modo *DD* quando solicitado) ou com o **balenaEtcher**.
+- O live-boot entra automaticamente no usuário `wxos` (senha `live`). Na área de trabalho você encontra o atalho **Instalar o WX OS**.
 
-## Modo claro / escuro
-
-No menu, procure **Tema claro** ou **Tema escuro**. No terminal:
-
-```bash
-wxos-tema claro      # ou: escuro | alternar
-```
+---
 
 ## Estrutura do projeto
 
 ```
 auto/config                         opções do live-build (Debian trixie, pt-BR, nome da ISO)
-config/package-lists/               lista de pacotes do sistema
-config/hooks/normal/9000-wxos...    identidade (os-release), idioma, teclado, instalador
+config/package-lists/               lista de pacotes (KDE Plasma, Inter, Papirus, Flatpak)
+config/hooks/normal/9000-wxos...    identidade (os-release), idioma, teclado, instalador, fontes
 config/includes.chroot/             arquivos copiados para dentro do sistema
-  etc/calamares/branding/wxos/      marca do instalador (logo, cores, slides)
-  usr/local/bin/wxos-tema           troca claro/escuro
-  usr/local/bin/wxos-primeiro-login ajustes no primeiro login
-  usr/local/sbin/wxos-bootloader-config  GRUB offline durante a instalação
-  usr/share/wallpapers/WXOS*        papéis de parede
-branding/                           arquivos-fonte (SVG) do logo e papéis de parede
-.github/workflows/build-iso.yml     compilação automática
+  etc/calamares/branding/wxos/      marca e apresentação do instalador gráfico
+  etc/xdg/                          configurações globais (botões à esquerda, fontes, GTK)
+  etc/skel/.config/                 configurações padrão para novos usuários
+  usr/local/bin/wxos-tema           alternador claro/escuro dinâmico
+  usr/local/bin/wxos-primeiro-login automação do layout macOS (Barra Superior + Dock)
+  usr/local/sbin/wxos-bootloader-config  instalação offline do GRUB
+  usr/share/wallpapers/             papéis de parede 4K / FHD (claro e escuro)
+branding/                           vetores SVG e imagens de alta resolução
+.github/workflows/build-iso.yml     automação da compilação via GitHub Actions
 ```
-
-## ISO leve
-
-- LibreOffice fica fora da ISO (instala pelo Discover → Flathub).
-- Só ficam traduções pt-BR/inglês; manuais (`man`) e documentação são removidos.
-- A regra vale também no sistema instalado: `/etc/dpkg/dpkg.cfg.d/01-wxos-leve`.
-  Para voltar a ter manuais e todos os idiomas, apague esse arquivo e reinstale os pacotes.
-
-## Adicionar ou remover programas
-
-Edite `config/package-lists/wx-os.list.chroot` (um pacote por linha, nomes do Debian 13) e envie para o GitHub; uma nova ISO é gerada.
-
-## Observações técnicas
-
-- O menu do GRUB mostra "Debian GNU/Linux". Isso é proposital: o GRUB assinado do Debian (Secure Boot) só funciona na pasta `/EFI/debian`; renomear quebraria o boot em PCs com Secure Boot.
-- `/usr/lib/os-release` é protegido com `dpkg-divert`, então as atualizações do Debian não apagam o nome WX OS.
-- Para compilar localmente (Debian/Ubuntu): `sudo apt install live-build` e, nesta pasta, `sudo lb config && sudo lb build`.
