@@ -16,31 +16,31 @@ Presentation
     }
 
     Slide {
-        Rectangle { anchors.fill: parent; color: "#052E16" }
-        Image { id: logo1; source: "logo.png"; width: 140; height: 140; fillMode: Image.PreserveAspectFit
+        Rectangle { anchors.fill: parent; color: "#0B1319" }
+        Image { id: logo1; source: "logo.png"; width: 130; height: 130; fillMode: Image.PreserveAspectFit
                 anchors.horizontalCenter: parent.horizontalCenter; anchors.top: parent.top; anchors.topMargin: 40 }
-        Text { anchors.top: logo1.bottom; anchors.topMargin: 24; anchors.horizontalCenter: parent.horizontalCenter
-               width: parent.width * 0.8; horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
-               color: "#FFFFFF"; font.pixelSize: 22
-               text: "Bem-vindo ao <b>WX OS</b>.<br/>Estamos instalando o sistema no seu computador.<br/><br/><small>Desenvolvido por GR TECH</small>" }
+        Text { anchors.top: logo1.bottom; anchors.topMargin: 22; anchors.horizontalCenter: parent.horizontalCenter
+               width: parent.width * 0.85; horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
+               color: "#FFFFFF"; font.pixelSize: 22; font.family: "Inter"
+               text: "Bem-vindo ao <b>WX OS</b>.<br/>A elegância do macOS com a robustez e estabilidade do Debian.<br/><br/><small style='color:#34D399'>Desenvolvido por GR TECH</small>" }
     }
     Slide {
-        Rectangle { anchors.fill: parent; color: "#14532D" }
-        Text { anchors.centerIn: parent; width: parent.width * 0.8; horizontalAlignment: Text.AlignHCenter
-               wrapMode: Text.WordWrap; color: "#FFFFFF"; font.pixelSize: 20
-               text: "<b>Tudo em português</b><br/><br/>Navegador, vídeos e fotos já vêm prontos para usar. O LibreOffice instala pelo Discover com um clique." }
+        Rectangle { anchors.fill: parent; color: "#0F172A" }
+        Text { anchors.centerIn: parent; width: parent.width * 0.85; horizontalAlignment: Text.AlignHCenter
+               wrapMode: Text.WordWrap; color: "#FFFFFF"; font.pixelSize: 20; font.family: "Inter"
+               text: "<b>Interface Inspirada no macOS</b><br/><br/>Barra de menus superior com <b>Menu Global unificado</b> e <b>Dock flutuante</b> inferior para acesso rápido aos seus aplicativos favoritos com visual limpo e moderno." }
     }
     Slide {
-        Rectangle { anchors.fill: parent; color: "#15803D" }
-        Text { anchors.centerIn: parent; width: parent.width * 0.8; horizontalAlignment: Text.AlignHCenter
-               wrapMode: Text.WordWrap; color: "#FFFFFF"; font.pixelSize: 20
-               text: "<b>Modo claro e escuro</b><br/><br/>Procure por \"Tema claro\" ou \"Tema escuro\" no menu para trocar o visual quando quiser." }
+        Rectangle { anchors.fill: parent; color: "#064E3B" }
+        Text { anchors.centerIn: parent; width: parent.width * 0.85; horizontalAlignment: Text.AlignHCenter
+               wrapMode: Text.WordWrap; color: "#FFFFFF"; font.pixelSize: 20; font.family: "Inter"
+               text: "<b>Tipografia Inter & Gráficos em Alta Definição</b><br/><br/>Fontes ultra nítidas no estilo Apple San Francisco, ícones modernos Papirus e papéis de parede abstratos em 4K nos modos claro e escuro." }
     }
     Slide {
-        Rectangle { anchors.fill: parent; color: "#052E16" }
-        Text { anchors.centerIn: parent; width: parent.width * 0.8; horizontalAlignment: Text.AlignHCenter
-               wrapMode: Text.WordWrap; color: "#FFFFFF"; font.pixelSize: 20
-               text: "<b>Loja de aplicativos</b><br/><br/>Abra o Discover para instalar novos programas com um clique." }
+        Rectangle { anchors.fill: parent; color: "#0F172A" }
+        Text { anchors.centerIn: parent; width: parent.width * 0.85; horizontalAlignment: Text.AlignHCenter
+               wrapMode: Text.WordWrap; color: "#FFFFFF"; font.pixelSize: 20; font.family: "Inter"
+               text: "<b>Loja de Aplicativos & Flatpak</b><br/><br/>Abra o Discover para instalar LibreOffice, Spotify, navegadores e milhares de ferramentas com apenas um clique." }
     }
 
     function onActivate() { presentation.currentSlide = 0; }

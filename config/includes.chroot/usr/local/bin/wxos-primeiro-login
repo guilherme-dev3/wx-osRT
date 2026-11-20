@@ -1,22 +1,68 @@
 #!/bin/bash
-# WX OS — ajustes feitos uma única vez no primeiro login de cada usuário.
+# WX OS — configuração automática da interface estilo macOS no primeiro login
 MARCA="$HOME/.config/wxos-primeiro-login"
 [ -f "$MARCA" ] && exit 0
-sleep 6   # espera o Plasma terminar de carregar
+sleep 4   # aguarda inicialização do Plasma
 
+# Aplica o tema escuro estilo macOS e papel de parede fluido
 /usr/local/bin/wxos-tema escuro
 
-# Ícone do WX OS no botão do menu iniciar
+# Constrói o layout nativo do macOS: Barra Superior + Dock Flutuante
 dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell \
   org.kde.PlasmaShell.evaluateScript string:'
-panels().forEach(function (p) {
-  ["org.kde.plasma.kickoff", "org.kde.plasma.kicker", "org.kde.plasma.kickerdash"].forEach(function (t) {
-    p.widgets(t).forEach(function (w) {
-      w.currentConfigGroup = ["General"];
-      w.writeConfig("icon", "/usr/share/pixmaps/wx-os.svg");
-    });
-  });
-});' >/dev/null 2>&1
+var allPanels = panels();
+for (var i = 0; i < allPanels.length; i++) {
+    allPanels[i].remove();
+}
+
+// 1. Barra de Menus Superior (macOS Menu Bar)
+var topBar = new Panel();
+topBar.location = "top";
+topBar.height = 28;
+topBar.floating = false;
+
+// Lançador de aplicativos com ícone WX OS
+var kickoff = topBar.addWidget("org.kde.plasma.kickoff");
+kickoff.currentConfigGroup = ["General"];
+kickoff.writeConfig("icon", "/usr/share/pixmaps/wx-os.svg");
+
+// Menu Global da janela ativa (Arquivo, Editar, Exibir...)
+topBar.addWidget("org.kde.plasma.appmenu");
+
+// Espaçador flexível (empurra itens da direita)
+topBar.addWidget("org.kde.plasma.panelspacer");
+
+// Bandeja do sistema (Wi-Fi, Bluetooth, Áudio, Bateria, Notificações)
+topBar.addWidget("org.kde.plasma.systemtray");
+
+// Relógio digital estilo macOS
+var clock = topBar.addWidget("org.kde.plasma.digitalclock");
+clock.currentConfigGroup = ["Appearance"];
+clock.writeConfig("showDate", "true");
+clock.writeConfig("dateFormat", "shortDate");
+
+// 2. Dock Flutuante Centralizado (macOS Dock)
+var dock = new Panel();
+dock.location = "bottom";
+dock.height = 58;
+dock.alignment = "center";
+dock.floating = true;
+
+var tasks = dock.addWidget("org.kde.plasma.icontasks");
+tasks.currentConfigGroup = ["General"];
+tasks.writeConfig("launchers", [
+    "applications:org.kde.dolphin.desktop",
+    "applications:firefox-esr.desktop",
+    "applications:org.kde.konsole.desktop",
+    "applications:org.kde.kate.desktop",
+    "applications:vlc.desktop",
+    "applications:org.kde.discover.desktop",
+    "applications:systemsettings.desktop"
+]);
+
+// Lixeira na extremidade do Dock
+dock.addWidget("org.kde.plasma.trash");
+' >/dev/null 2>&1
 
 # No pendrive (modo live): atalho "Instalar o WX OS" na área de trabalho
 if [ -d /run/live/medium ]; then

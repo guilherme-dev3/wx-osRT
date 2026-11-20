@@ -1,7 +1,7 @@
 #!/bin/sh
 # Personalização do WX OS — roda dentro do sistema durante a compilação.
 set -e
-echo ">>> [WX OS] aplicando identidade e configurações"
+echo ">>> [WX OS] aplicando identidade, interface estilo macOS e configurações"
 
 # ---- Identidade (os-release), protegida contra atualizações do Debian ----
 if ! dpkg-divert --list /usr/lib/os-release | grep -q wxos; then
@@ -53,7 +53,6 @@ for f in /usr/share/applications/install-debian.desktop /usr/share/applications/
 done
 
 # Instalação do GRUB sem precisar de internet: deixa os pacotes guardados na ISO
-# (efi = UEFI com Secure Boot assinado; bios = PCs antigos/Legacy)
 baixar_grub() {
   dir="/opt/wxos/grub/$1"; shift
   mkdir -p "$dir/partial"
@@ -74,6 +73,11 @@ if command -v flatpak >/dev/null 2>&1; then
     https://dl.flathub.org/repo/flathub.flatpakrepo || echo "aviso: Flathub não adicionado"
 fi
 
+# ---- Atualizar cache de fontes e permissões ----
+fc-cache -f 2>/dev/null || true
+chmod 755 /usr/local/bin/wxos-* /usr/local/sbin/wxos-* 2>/dev/null || true
+[ -f /etc/profile.d/wxos-env.sh ] && chmod 755 /etc/profile.d/wxos-env.sh
+
 # ---- ISO leve: remove idiomas extras, manuais e documentação ----
 # (o arquivo /etc/dpkg/dpkg.cfg.d/01-wxos-leve já impede que voltem)
 for d in /usr/share/locale /usr/share/help; do
@@ -88,7 +92,4 @@ find /usr/share/doc -mindepth 1 -type d -empty -delete 2>/dev/null || true
 apt-get clean
 rm -f /var/cache/apt/*.bin
 
-# ---- Permissões dos scripts do WX OS ----
-chmod 755 /usr/local/bin/wxos-* /usr/local/sbin/wxos-*
-
-echo ">>> [WX OS] personalização concluída"
+echo ">>> [WX OS] personalização e interface estilo macOS concluídas"

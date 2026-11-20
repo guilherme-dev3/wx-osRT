@@ -24,8 +24,13 @@ firmware-sof-signed
 intel-microcode
 amd64-microcode
 
-# ---------- Área de trabalho KDE Plasma ----------
+# ---------- Aceleração Gráfica & Drivers ----------
+mesa-utils
+libgl1-mesa-dri
+
+# ---------- Área de trabalho KDE Plasma (Estilo macOS) ----------
 kde-plasma-desktop
+systemsettings
 sddm
 sddm-theme-breeze
 plasma-nm
@@ -38,6 +43,12 @@ plasma-discover-backend-flatpak
 flatpak
 network-manager
 pipewire-audio
+plasma-widgets-addons
+appmenu-gtk3-module
+kde-config-gtk-style
+
+# ---------- Ícones & Temas ----------
+papirus-icon-theme
 
 # ---------- Aplicativos ----------
 konsole
@@ -51,8 +62,7 @@ kcalc
 partitionmanager
 firefox-esr
 firefox-esr-l10n-pt-br
-# LibreOffice saiu da ISO para deixá-la leve.
-# O usuário instala pelo Discover (Flathub) com um clique.
+# LibreOffice instala pelo Discover (Flathub) com um clique.
 vlc
 curl
 wget
@@ -60,7 +70,8 @@ nano
 htop
 unzip
 
-# ---------- Fontes ----------
+# ---------- Fontes (Estilo Apple macOS / San Francisco) ----------
+fonts-inter
 fonts-noto-core
 fonts-noto-color-emoji
 fonts-dejavu

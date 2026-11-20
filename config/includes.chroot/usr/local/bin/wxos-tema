@@ -1,7 +1,7 @@
 #!/bin/bash
-# WX OS — troca entre modo claro e escuro mantendo o verde como destaque.
+# WX OS — troca entre modo claro e escuro estilo macOS com destaque esmeralda
 # Uso: wxos-tema claro | escuro | alternar
-VERDE="#16A34A"
+VERDE="#10B981"
 modo="${1:-alternar}"
 
 ler() { kreadconfig6 "$@" 2>/dev/null || kreadconfig5 "$@" 2>/dev/null; }
@@ -13,8 +13,22 @@ if [ "$modo" = "alternar" ]; then
 fi
 
 case "$modo" in
-  claro)  esquema=BreezeLight; plasma=breeze-light; icones=breeze;      fundo=WXOS-Claro ;;
-  escuro) esquema=BreezeDark;  plasma=breeze-dark;  icones=breeze-dark; fundo=WXOS ;;
+  claro)
+    esquema=BreezeLight
+    plasma=breeze-light
+    icones=Papirus
+    gtk_tema=Breeze
+    gtk_dark=0
+    fundo=WXOS-Claro
+    ;;
+  escuro)
+    esquema=BreezeDark
+    plasma=breeze-dark
+    icones=Papirus-Dark
+    gtk_tema=Breeze-Dark
+    gtk_dark=1
+    fundo=WXOS
+    ;;
   *) echo "Uso: wxos-tema claro|escuro|alternar"; exit 1 ;;
 esac
 
@@ -22,7 +36,20 @@ plasma-apply-colorscheme "$esquema" >/dev/null 2>&1
 plasma-apply-desktoptheme "$plasma" >/dev/null 2>&1
 gravar --file kdeglobals --group Icons --key Theme "$icones"
 plasma-apply-colorscheme --accent-color "$VERDE" >/dev/null 2>&1 || \
-  gravar --file kdeglobals --group General --key AccentColor "22,163,74"
+  gravar --file kdeglobals --group General --key AccentColor "16,185,129"
+
+# Sincroniza aplicativos GTK
+mkdir -p "$HOME/.config/gtk-3.0"
+cat > "$HOME/.config/gtk-3.0/settings.ini" <<GTK
+[Settings]
+gtk-theme-name=$gtk_tema
+gtk-icon-theme-name=$icones
+gtk-font-name=Inter 10
+gtk-application-prefer-dark-theme=$gtk_dark
+gtk-modules=appmenu-gtk-module
+gtk-decoration-layout=close,minimize,maximize:
+GTK
+
 img="/usr/share/wallpapers/$fundo/contents/images/1920x1080.png"
 [ -f "$img" ] && plasma-apply-wallpaperimage "$img" >/dev/null 2>&1
-echo "WX OS: modo $modo aplicado"
+echo "WX OS (macOS Style): modo $modo aplicado"

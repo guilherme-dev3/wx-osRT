@@ -4,7 +4,7 @@ componentName:  wxos
 welcomeStyleCalamares:   false
 welcomeExpandingLogo:    true
 windowExpanding:    normal
-windowSize: 960px,640px
+windowSize: 980px,650px
 windowPlacement: center
 sidebar: widget
 navigation: widget
@@ -14,7 +14,7 @@ strings:
     shortProductName:    "WX OS"
     version:             "1.0"
     shortVersion:        "1.0"
-    versionedName:       "WX OS 1.0"
+    versionedName:       "WX OS 1.0 (macOS Edition)"
     shortVersionedName:  "WX OS 1.0"
     # Precisa continuar "debian" por causa do GRUB assinado (Secure Boot)
     bootloaderEntryName: "debian"
@@ -32,7 +32,7 @@ slideshow:               "show.qml"
 slideshowAPI:            2
 
 style:
-   SidebarBackground:        "#052E16"
-   SidebarText:              "#FFFFFF"
-   SidebarTextCurrent:       "#052E16"
-   SidebarBackgroundCurrent: "#4ADE80"
+   SidebarBackground:        "#0F172A"
+   SidebarText:              "#E2E8F0"
+   SidebarTextCurrent:       "#0F172A"
+   SidebarBackgroundCurrent: "#34D399"
