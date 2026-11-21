@@ -32,6 +32,10 @@ jobs:
               apt-get install -y --no-install-recommends live-build ca-certificates \
                 debootstrap squashfs-tools xorriso grub-efi-amd64-bin grub-pc-bin \
                 mtools dosfstools syslinux syslinux-common isolinux
+              # Chave do repositório Ubuntu (o WX OS é base Ubuntu, o contêiner é Debian)
+              apt-get install -y --no-install-recommends ubuntu-archive-keyring \
+                || apt-get install -y --no-install-recommends ubuntu-keyring
+              test -f /usr/share/keyrings/ubuntu-archive-keyring.gpg
               chmod +x auto/* config/hooks/normal/*.hook.chroot \
                 config/includes.chroot/usr/local/bin/* config/includes.chroot/usr/local/sbin/*
               lb clean --purge || true
