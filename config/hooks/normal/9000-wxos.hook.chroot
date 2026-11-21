@@ -62,10 +62,17 @@ baixar_grub() {
 }
 baixar_grub efi grub-efi-amd64 grub-efi-amd64-signed shim-signed
 baixar_grub bios grub-pc
-if [ -x /usr/sbin/bootloader-config ] && ! dpkg-divert --list /usr/sbin/bootloader-config | grep -q wxos; then
-  dpkg-divert --local --package wxos --rename --divert /usr/sbin/bootloader-config.ubuntu --add /usr/sbin/bootloader-config
-fi
-ln -sf /usr/local/sbin/wxos-bootloader-config /usr/sbin/bootloader-config
+# Substitui TODOS os scripts de bootloader do Calamares (Debian e Ubuntu) pelo do WX OS
+for alvo in /usr/sbin/bootloader-config \
+            /usr/share/calamares/helpers/calamares-bootloader-config \
+            $(find /usr/share/calamares /usr/lib/calamares /usr/libexec -name '*bootloader-config*' -type f 2>/dev/null); do
+  [ "$alvo" = /usr/local/sbin/wxos-bootloader-config ] && continue
+  if [ -e "$alvo" ] && [ ! -L "$alvo" ] && ! dpkg-divert --list "$alvo" | grep -q wxos; then
+    dpkg-divert --local --package wxos --rename --divert "$alvo.ubuntu" --add "$alvo"
+  fi
+  mkdir -p "$(dirname "$alvo")"
+  ln -sf /usr/local/sbin/wxos-bootloader-config "$alvo"
+done
 
 # ---- Loja: repositório Flathub no Discover (LibreOffice e outros apps) ----
 if command -v flatpak >/dev/null 2>&1; then

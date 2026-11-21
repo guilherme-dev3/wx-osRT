@@ -11,6 +11,14 @@ cryptsetup
 keyutils
 efibootmgr
 os-prober
+# GRUB já dentro do sistema (instalação sem internet, UEFI e BIOS)
+grub-common
+grub2-common
+grub-efi-amd64-bin
+grub-efi-amd64-signed
+shim-signed
+grub-pc-bin
+mokutil
 linux-generic
 
 # ---------- Firmware (Wi-Fi, vídeo, som em PCs reais) ----------

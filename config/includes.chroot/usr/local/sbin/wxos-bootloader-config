@@ -1,30 +1,43 @@
 #!/bin/bash
 # WX OS — prepara o GRUB no sistema instalado (chamado pelo Calamares).
-# Usa os pacotes guardados na própria ISO, então funciona sem internet.
-CHROOT=$(mount | grep proc | grep calamares | awk '{print $3}' | sed -e "s#/proc##g")
-[ -n "$CHROOT" ] || { echo "bootloader-config: destino não encontrado"; exit 1; }
+# O GRUB (UEFI e BIOS) já vem dentro do sistema; os .deb guardados na ISO
+# são só reserva. Nunca devolve erro para não travar o fim da instalação.
+
+# Destino: argumento (Ubuntu) ou detecção pelo /proc montado (Debian)
+CHROOT=""
+for a in "$@"; do [ -d "$a/etc" ] && CHROOT="$a"; done
+[ -n "$CHROOT" ] || CHROOT=$(mount | grep proc | grep calamares | awk '{print $3}' | sed -e "s#/proc##g" | head -n1)
+[ -n "$CHROOT" ] || { echo "bootloader-config: destino não encontrado (seguindo mesmo assim)"; exit 0; }
 
 if [ -d /sys/firmware/efi/efivars ]; then
-  MODO=efi;  PACOTES="grub-efi-amd64 grub-efi-amd64-signed shim-signed"
+  MODO=efi;  ALVO=x86_64-efi; PACOTES="grub-efi-amd64 grub-efi-amd64-signed shim-signed"
 else
-  MODO=bios; PACOTES="grub-pc"
+  MODO=bios; ALVO=i386-pc;    PACOTES="grub-pc"
 fi
-echo "Running bootloader-config ($MODO)..."
+echo "Running WX OS bootloader-config ($MODO) em $CHROOT..."
 
-export DEBIAN_FRONTEND=noninteractive
-rm -rf "$CHROOT/tmp/wxos-grub"
-cp -r "/opt/wxos/grub/$MODO" "$CHROOT/tmp/wxos-grub"
-if ls "$CHROOT"/tmp/wxos-grub/*.deb >/dev/null 2>&1 && \
-   chroot "$CHROOT" sh -c 'apt-get -y --no-install-recommends install /tmp/wxos-grub/*.deb'; then
-  echo " * GRUB instalado a partir da ISO"
+if [ -x "$CHROOT/usr/sbin/grub-install" ] && [ -d "$CHROOT/usr/lib/grub/$ALVO" ]; then
+  echo " * GRUB já presente no sistema — nada a baixar"
 else
-  echo " * Pacotes locais falharam, tentando pela internet..."
-  chroot "$CHROOT" apt-get -y install $PACOTES
+  export DEBIAN_FRONTEND=noninteractive
+  rm -rf "$CHROOT/tmp/wxos-grub"
+  if [ -d "/opt/wxos/grub/$MODO" ]; then
+    cp -r "/opt/wxos/grub/$MODO" "$CHROOT/tmp/wxos-grub"
+  fi
+  if ls "$CHROOT"/tmp/wxos-grub/*.deb >/dev/null 2>&1 && \
+     chroot "$CHROOT" sh -c 'apt-get -y --no-install-recommends install /tmp/wxos-grub/*.deb'; then
+    echo " * GRUB instalado a partir da ISO"
+  else
+    echo " * Pacotes locais falharam, tentando pela internet..."
+    chroot "$CHROOT" apt-get -y install $PACOTES || echo " * aviso: não instalou $PACOTES"
+  fi
+  rm -rf "$CHROOT/tmp/wxos-grub"
 fi
-rm -rf "$CHROOT/tmp/wxos-grub" "$CHROOT/opt/wxos/grub"
+rm -rf "$CHROOT/opt/wxos/grub"
 
 # Detectar Windows e outros sistemas no menu de boot
 if [ -f "$CHROOT/etc/default/grub" ]; then
   sed -i "s/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/" "$CHROOT/etc/default/grub"
+  grep -q '^GRUB_DISABLE_OS_PROBER=' "$CHROOT/etc/default/grub" || echo 'GRUB_DISABLE_OS_PROBER=false' >> "$CHROOT/etc/default/grub"
 fi
 exit 0
