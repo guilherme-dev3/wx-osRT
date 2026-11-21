@@ -3,7 +3,7 @@
 # O GRUB (UEFI e BIOS) já vem dentro do sistema; os .deb guardados na ISO
 # são só reserva. Nunca devolve erro para não travar o fim da instalação.
 
-# Destino: argumento (Ubuntu) ou detecção pelo /proc montado (Debian)
+# Destino: argumento ou detecção pelo /proc montado (Debian)
 CHROOT=""
 for a in "$@"; do [ -d "$a/etc" ] && CHROOT="$a"; done
 [ -n "$CHROOT" ] || CHROOT=$(mount | grep proc | grep calamares | awk '{print $3}' | sed -e "s#/proc##g" | head -n1)

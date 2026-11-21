@@ -1,3 +1,7 @@
+# WX OS 1.3 — base Debian 13 (trixie)
+# Só pacotes essenciais aqui (se um faltar, a compilação para).
+# Os extras são instalados pelo hook 9000-wxos, um por um, sem travar.
+
 # ---------- Sistema live ----------
 live-boot
 live-config
@@ -11,71 +15,20 @@ cryptsetup
 keyutils
 efibootmgr
 os-prober
-# GRUB já dentro do sistema (instalação sem internet, UEFI e BIOS)
+
+# ---------- GRUB já dentro do sistema (instalação sem internet) ----------
 grub-common
 grub2-common
 grub-efi-amd64-bin
-grub-efi-amd64-signed
-shim-signed
 grub-pc-bin
-mokutil
-linux-generic
 
-# ---------- Firmware (Wi-Fi, vídeo, som em PCs reais) ----------
-linux-firmware
-intel-microcode
-amd64-microcode
-
-# ---------- Aceleração Gráfica & Drivers ----------
-mesa-utils
-libgl1-mesa-dri
-
-# ---------- Área de trabalho KDE Plasma (Estilo macOS) ----------
+# ---------- Área de trabalho KDE Plasma ----------
 kde-plasma-desktop
-systemsettings
 sddm
-sddm-theme-breeze
-plasma-nm
-plasma-pa
-bluedevil
-powerdevil
-kscreen
-plasma-discover
-plasma-discover-backend-flatpak
-flatpak
 network-manager
-pipewire-audio
-plasma-widgets-addons
-appmenu-gtk3-module
-kde-config-gtk-style
-
-# ---------- Ícones & Temas ----------
-papirus-icon-theme
-
-# ---------- Aplicativos ----------
 konsole
 dolphin
-kate
-ark
-okular
-gwenview
-kde-spectacle
-kcalc
-partitionmanager
-# Navegador e LibreOffice podem ser instalados pelo Discover (Flathub) ou Brave via script
-vlc
-curl
-wget
-nano
-htop
-unzip
-
-# ---------- Fontes (Estilo Apple macOS / San Francisco) ----------
-fonts-inter
-fonts-noto-core
-fonts-noto-color-emoji
-fonts-dejavu
 
 # ---------- Instalador gráfico ----------
 calamares
-calamares-settings-ubuntu
+calamares-settings-debian
