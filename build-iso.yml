@@ -1,0 +1,89 @@
+name: Compilar ISO do WX OS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+
+permissions:
+  contents: write
+
+jobs:
+  iso:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Baixar o projeto
+        uses: actions/checkout@v4
+
+      - name: Liberar espaço em disco
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
+                      /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          sudo docker image prune -af || true
+          df -h /
+
+      - name: Compilar a ISO (Debian 13 + live-build)
+        run: |
+          sudo docker run --rm --privileged \
+            -v "$PWD":/wxos -w /wxos debian:trixie bash -euxc '
+              apt-get update
+              apt-get install -y --no-install-recommends live-build ca-certificates \
+                debootstrap squashfs-tools xorriso grub-efi-amd64-bin grub-pc-bin \
+                mtools dosfstools syslinux syslinux-common isolinux
+              # Chave do repositório Ubuntu (o WX OS é base Ubuntu, o contêiner é Debian)
+              apt-get install -y --no-install-recommends ubuntu-archive-keyring \
+                || apt-get install -y --no-install-recommends ubuntu-keyring
+              test -f /usr/share/keyrings/ubuntu-archive-keyring.gpg
+              chmod +x auto/* config/hooks/normal/*.hook.chroot \
+                config/includes.chroot/usr/local/bin/* config/includes.chroot/usr/local/sbin/*
+              lb clean --purge || true
+              lb config
+              lb build
+              chown -R '"$(id -u):$(id -g)"' /wxos
+            '
+
+      - name: Conferir resultado
+        run: |
+          ISO=$(ls *.iso | head -n1)
+          test -n "$ISO"
+          mv "$ISO" wx-os-1.0-amd64.iso
+          sha256sum wx-os-1.0-amd64.iso > wx-os-1.0-amd64.iso.sha256
+          ls -lh wx-os-1.0-amd64.iso*
+
+      - name: Guardar ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: wx-os-1.0-amd64
+          path: |
+            wx-os-1.0-amd64.iso
+            wx-os-1.0-amd64.iso.sha256
+          compression-level: 0
+          retention-days: 14
+
+      - name: Guardar log da compilação
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
+          if-no-files-found: ignore
+
+      - name: Preparar arquivos da Release
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          mkdir release
+          if [ "$(stat -c%s wx-os-1.0-amd64.iso)" -gt 2000000000 ]; then
+            split -b 1900M -d wx-os-1.0-amd64.iso release/wx-os-1.0-amd64.iso.part
+          else
+            cp wx-os-1.0-amd64.iso release/
+          fi
+          cp wx-os-1.0-amd64.iso.sha256 release/
+
+      - name: Publicar Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: WX OS ${{ github.ref_name }}
+          files: release/*
