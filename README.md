@@ -1,6 +1,6 @@
-# WX OS 1.0 — Edição macOS
+# WX OS 1.3 — Edição macOS
 
-Distribuição Linux criada pela **GR TECH**: base **Ubuntu 24.04 LTS (noble)**, área de trabalho **KDE Plasma** totalmente personalizada com **interface limpa e fluida inspirada no macOS**, destaque violeta neon (`#8B5CF6`), papéis de parede abstratos em 4K em tons de azul e púrpura luminoso, tudo em **português do Brasil**, teclado **ABNT2** e instalador gráfico (**Calamares**).
+Distribuição Linux criada pela **GR TECH**: base **Debian 13 (trixie)**, área de trabalho **KDE Plasma** totalmente personalizada com **interface limpa e fluida inspirada no macOS**, destaque violeta neon (`#8B5CF6`), papéis de parede abstratos em 4K em tons de azul e púrpura luminoso, tudo em **português do Brasil**, teclado **ABNT2** e instalador gráfico (**Calamares**).
 
 ---
 
@@ -50,19 +50,19 @@ wxos-tema alternar   # Alterna entre os dois modos
    ```bash
    git init
    git add .
-   git commit -m "WX OS 1.0 - Interface macOS e gráficos refinados"
+   git commit -m "WX OS 1.3 - Interface macOS e gráficos refinados"
    git branch -M main
    git remote add origin https://github.com/SEU-USUARIO/SEU-REPOSITORIO.git
    git push -u origin main
    ```
 3. A compilação é iniciada automaticamente pelo GitHub Actions (leva de 40 a 60 minutos).
-4. Ao concluir, vá até a aba **Actions** e baixe o artefato **wx-os-1.0-amd64** (contendo a ISO pronta para boot e o arquivo de verificação sha256).
+4. Ao concluir, vá até a aba **Actions** e baixe o artefato **wx-os-1.3-amd64** (contendo a ISO pronta para boot e o arquivo de verificação sha256).
 
 ### Publicar uma versão oficial (Aba Releases)
 
 ```bash
-git tag v1.0
-git push origin v1.0
+git tag v1.3
+git push origin v1.3
 ```
 
 A ISO será anexada automaticamente na aba **Releases**.
@@ -80,7 +80,7 @@ A ISO será anexada automaticamente na aba **Releases**.
 ## Estrutura do projeto
 
 ```
-auto/config                         opções do live-build (Ubuntu 24.04 noble, pt-BR, nome da ISO)
+auto/config                         opções do live-build (Debian 13 trixie, pt-BR, nome da ISO)
 config/package-lists/               lista de pacotes (KDE Plasma, Inter, Papirus, Flatpak)
 config/hooks/normal/9000-wxos...    identidade (os-release), idioma, teclado, instalador, fontes
 config/includes.chroot/             arquivos copiados para dentro do sistema
